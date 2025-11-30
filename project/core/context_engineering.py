@@ -1,19 +1,16 @@
 from typing import Dict, Any, List
 import json
-from project.core.a2a_protocol import BehaviorFingerprint, PlannerRecommendation # Import PlannerRecommendation
+from project.core.a2a_protocol import BehaviorFingerprint, PlannerRecommendation
 
-def engineer_planner_context(sense_state: Dict[str, Any], memory_snapshot: BehaviorFingerprint, verified_recs: List[PlannerRecommendation], risk_level: str) -> str:
+def engineer_planner_context(sense_state: Dict[str, Any], memory_snapshot: Dict[str, Any], verified_recs: List[Dict[str, Any]], risk_level: str) -> str:
     """
     Engineers a detailed, structured, and FIXED-SIZE prompt for the LLM Planner.
     """
-    # Convert PlannerRecommendation objects to dictionaries for JSON serialization
-    serialized_recs = [rec.model_dump() for rec in verified_recs] # Changed .dict() to .model_dump()
-
     context = {
         "SENSE_STATE": sense_state,
-        "MEMORY_SNAPSHOT": memory_snapshot.model_dump(), # Changed .dict() to .model_dump()
+        "MEMORY_SNAPSHOT": memory_snapshot,
         "RISK_LEVEL": risk_level,
-        "VERIFIED_EARNING_RECS": serialized_recs, # Use the serialized list here
+        "VERIFIED_EARNING_RECS": verified_recs, # Now expects a list of dictionaries directly
         "INSTRUCTION": "Generate a micro-plan. If RISK_LEVEL is HIGH, prioritize SURVIVAL and omit earning recs."
     }
 

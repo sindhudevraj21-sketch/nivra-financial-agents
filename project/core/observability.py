@@ -23,7 +23,7 @@ def generate_trace(context: Dict[str, Any], plan_output: Dict[str, Any], coach_a
     trace = {
         "priority_level": plan_output.get("priority_level"),
         "risk_report": context.get("risk_level"),
-        "memory_snapshot": context.get("memory_snapshot").model_dump(), # Changed .dict() to .model_dump()
+        "memory_snapshot": context.get("memory_snapshot"), # Removed .model_dump() as it's already a dict
         "input_hygiene": {
             "parser_confidence": context["sense_state"]["parser_confidence_score"],
             "total_expenses_recorded": len(context["sense_state"]["all_today_expenses"])

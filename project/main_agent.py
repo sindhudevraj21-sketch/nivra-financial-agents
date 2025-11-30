@@ -30,7 +30,7 @@ class MainAgent:
 
         # 2. MEMORY
         memory_snapshot = self.memory.compute_and_get_fingerprint()
-        self.context["memory_snapshot"] = memory_snapshot
+        self.context["memory_snapshot"] = memory_snapshot.model_dump() # Convert to dict here
         self.context["user_id"] = self.user_id # Add user_id to context
 
         # 3. EVALUATION (Risk)
